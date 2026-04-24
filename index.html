@@ -1,2 +1,127 @@
-# game-tebak-angka
-tebak ngaka rahasia
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Game Tebak Angka Pro</title>
+
+<style>
+  body {
+    font-family: Arial;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 300px;
+  }
+
+  input {
+    padding: 10px;
+    width: 80%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+  button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    background: #4facfe;
+    color: white;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #007bff;
+  }
+
+  #hasil {
+    margin-top: 15px;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <h2>🎮 Tebak Angka Pro</h2>
+
+  <!-- AREA GAME -->
+  <div id="gameArea">
+    <p>❤️ Nyawa: <span id="nyawa">3</span></p>
+
+    <input id="tebakan" type="number" min="1" max="10" placeholder="1-10">
+    <br>
+
+    <button onclick="cek()">Cek</button>
+  </div>
+
+  <!-- GAME OVER -->
+  <div id="gameOver" style="display:none;">
+    <h2>💀 GAME OVER</h2>
+    <p id="jawaban"></p>
+    <button onclick="resetGame()">Main Lagi 🔄</button>
+  </div>
+
+  <p id="hasil"></p>
+
+</div>
+
+<script>
+let angka_rahasia = Math.floor(Math.random() * 10) + 1;
+let nyawa = 3;
+
+function cek() {
+  let tebakan = Number(document.getElementById("tebakan").value);
+
+  // validasi
+  if (tebakan < 1 || tebakan > 10) {
+    document.getElementById("hasil").innerText = "Masukkan angka 1 - 10!";
+    return;
+  }
+
+  if (nyawa <= 0) {
+    return;
+  }
+
+  if (tebakan > angka_rahasia) {
+    nyawa--;
+    document.getElementById("hasil").innerText = "Terlalu besar";
+  } else if (tebakan < angka_rahasia) {
+    nyawa--;
+    document.getElementById("hasil").innerText = "Terlalu kecil";
+  } else {
+    document.getElementById("hasil").innerText = "Benar! 🎉 Kamu menang!";
+    return;
+  }
+
+  document.getElementById("nyawa").innerText = nyawa;
+
+  // GAME OVER
+  if (nyawa === 0) {
+    document.getElementById("gameArea").style.display = "none";
+    document.getElementById("gameOver").style.display = "block";
+    document.getElementById("jawaban").innerText =
+      "Angkanya: " + angka_rahasia;
+  }
+}
+
+function resetGame() {
+  location.reload();
+}
+</script>
+
+</body>
+</html>
